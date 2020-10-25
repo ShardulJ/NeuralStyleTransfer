@@ -4,28 +4,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torchvision import transforms
 from torchvision.models import vgg19
-"""
-import os
-from PIL import Image
-import matplotlib.pyplot as plt
-import numpy as np
 
-Path_content = './chicago.jpg'
-device = "cpu"
-
-transform = transforms.Compose([
-    transforms.Resize((256,256)),  # scale imported image
-    transforms.ToTensor()])
-
-to_pil = transforms.ToPILImage()
-
-def load_image(image_name):
-    image = Image.open(image_name).convert('RGB')
-    image = transform(image).unsqueeze(0)
-    return image.to(device)
-
-c = load_image(Path_content)
-"""
 
 class VGG19(nn.Module):
     def __init__(self, content=False):
@@ -56,9 +35,3 @@ class VGG19(nn.Module):
             out_4_2 = self.conv_4_2(out_3_1)
             return out_4_2
 
-"""
-if __name__ == "__main__":
-	con = VGG19(content=True)
-	out = con(c)
-	print(out)
-"""
