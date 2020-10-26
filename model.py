@@ -1,11 +1,14 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
+import copy
 
 class VGG19(nn.Module):
+    
+    #device = "cpu"
+
     def __init__(self,cnn):
-        super(VGG1, self).__init__()
+        super(VGG19, self).__init__()
         self.cnn = copy.deepcopy(cnn)
         
         #Hack to set relu inplace=False
@@ -33,7 +36,7 @@ class VGG19(nn.Module):
         for p in self.model.parameters():
             p.requires_grad = False
         
-        self.model.to(device)
+        self.model.to("cpu")
         self.conv_1_1 = nn.Sequential(*list(self.model.children())[0:1])
         self.conv_2_1 = nn.Sequential(*list(self.model.children())[1:6])
         self.conv_3_1 = nn.Sequential(*list(self.model.children())[6:11])   
