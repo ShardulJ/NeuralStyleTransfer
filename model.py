@@ -1,12 +1,9 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import torch.optim as optim
-from torchvision import transforms
-from torchvision.models import vgg19
 
 
-class VGG1(nn.Module):
+class VGG19(nn.Module):
     def __init__(self,cnn):
         super(VGG1, self).__init__()
         self.cnn = copy.deepcopy(cnn)
