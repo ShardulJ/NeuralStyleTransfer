@@ -20,6 +20,11 @@ def load_image(image_name,transform):
     image = Image.open(image_name)
     image = transform(image).unsqueeze(0)
     return image.to(device)
+def convert(image):
+    x = image.to("cpu").clone().detach().numpy().squeeze()
+    x = x.transpose(1,2,0)
+    x = x*np.array((0.485, 0.456, 0.406)) + np.array((0.229, 0.224, 0.225))
+    return np.clip(x,0,1)
 
 def plot_img(content_img, style_img, title=None):
 	#Function plots both the images.
@@ -129,9 +134,11 @@ def main(args):
         optimizer.zero_grad()
         total_loss.backward()
         optimizer.step()
-
-        if i == epochs-1:
-            plt.imsave('./output/'+str(i)+'.jpg',to_pil(target_image.cpu().clone().squeeze()),format='jpg')
+        
+        if i%print_after == 0:
+        plt.imshow(convert(target_image),label="Epoch "+str(i))
+        plt.show()
+        plt.imsave('./output/'+str(i)+'.png',convert(target_image),format='png')
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser('Parser for neural style transfer', parents=[get_args_parser()])
